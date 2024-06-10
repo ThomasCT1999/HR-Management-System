@@ -1,0 +1,21 @@
+
+###
+GET http://localhost:16000/api
+
+###
+GET http://localhost:16000/setup
+
+###
+POST http://localhost:16000/api
+Content-Type: application/json
+
+{
+    "name": "tom",
+    "location": "1234"
+}
+
+###
+GET http://localhost:16000/users
+
+###
+GET http://localhost:16000/insert-users
