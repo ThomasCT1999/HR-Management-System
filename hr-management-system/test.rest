@@ -1,12 +1,12 @@
 
 ###
-GET http://localhost:16000/api
+GET http://localhost:6000/api
 
 ###
-GET http://localhost:16000/setup
+GET http://localhost:6000/check
 
 ###
-POST http://localhost:16000/api
+POST http://localhost:6000/api
 Content-Type: application/json
 
 {
@@ -15,7 +15,20 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:16000/users
+GET http://localhost:6000/users
 
 ###
-GET http://localhost:16000/insert-users
+POST http://localhost:6000/insert-users
+
+###
+GET http://localhost:6000/setup
+
+###
+POST http://localhost:6000/api/register
+Content-Type: application/json
+
+{
+    "name": "test1",
+    "email": "test@example.com",
+    "password": "password123"
+}

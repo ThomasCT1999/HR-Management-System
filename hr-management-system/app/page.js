@@ -10,6 +10,7 @@ export default function Home() {
             <Link href="/" className="px-4">Home</Link>
             <Link href="/about" className="px-4">About</Link>
             <Link href="/contact" className="px-4">Contact</Link>
+            <Link href="/register" className="px-4 bg-blue-500 text-black rounded">register</Link>
             <Link href="/login" className="px-4 bg-blue-500 text-black rounded">Login</Link>
           </nav>
         </div>
@@ -18,7 +19,7 @@ export default function Home() {
       <main className="container mx-auto p-4">
         <section className="text-center text-black py-20 bg-gray-100">
           <h2 className="text-4xl font-bold mb-4">Welcome to Our HR Management System</h2>
-          <p className="text-lg mb-8">Streamline your HR processes and enhance your team's productivity.</p>
+          <p className="text-lg mb-8">Streamline your HR processes.</p>
         </section>
 
         <section className="py-20">

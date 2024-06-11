@@ -2,6 +2,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const next = require('next');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -17,6 +18,20 @@ const pool = new Pool({
   database: process.env.DB_NAME || 'hr-system'
 });
 
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack);
+  }
+  console.log('Database connected successfully');
+  client.query('SELECT NOW()', (err, result) => {
+    release();
+    if (err) {
+      return console.error('Error executing query', err.stack);
+    }
+    console.log(result.rows);
+  });
+});
+
 app.prepare().then(() => {
   const server = express();
 
@@ -24,7 +39,7 @@ app.prepare().then(() => {
 
   server.get('/check', (req, res) => {
     res.status(200).send({
-      message: 'server is on and check has worked'
+      message: 'server is on and check has worked..'
     });
   });
 
@@ -34,7 +49,33 @@ app.prepare().then(() => {
       message: `YOUR KEYS WERE ${name}, ${location}`
     });
   });
-
+  
+  server.post('/api/register', async (req, res) => {
+    try {
+      // Retrieve user data from request body
+      const { name, email, password } = req.body;
+  
+      // Validate user input (e.g., check for required fields)
+  
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      // Use parameterized queries to prevent SQL injection
+      const insertQuery = `
+        INSERT INTO users (username, password_hash, email) VALUES ($1, $2, $3)
+      `;
+      await pool.query(insertQuery, [name, hashedPassword, email]);
+  
+      // Respond with a success message
+      res.status(200).json({ message: 'Registration successful' });
+    } catch (error) {
+      // Handle errors
+      console.error('Error registering user:', error);
+      res.status(500).json({ message: 'An error occurred during registration' });
+    }
+  });
+  
+  
   server.get('/setup', async (req, res) => {
     try {
       await pool.query(`

@@ -1,28 +1,22 @@
-// components/Navbar.js
 import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/client';
 
-const Navbar = () => {
+export default function Navbar() {
+  const [session, loading] = useSession();
+
   return (
-    <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex justify-between">
-        <div className="text-white text-xl">My App</div>
-        <div>
-          <Link href="/">
-            <a className="text-white px-3">Home</a>
-          </Link>
-          <Link href="/about">
-            <a className="text-white px-3">About</a>
-          </Link>
-          <Link href="/contact">
-            <a className="text-white px-3">Contact</a>
-          </Link>
-          <Link href="/login">
-            <a className="text-white px-3">Login</a>
-          </Link>
-        </div>
-      </div>
+    <nav>
+      <Link href="/">Home</Link>
+      <Link href="/about">About</Link>
+      <Link href="/contact">Contact</Link>
+      {session ? (
+        <>
+          <Link href="/dashboard">Dashboard</Link>
+          <button onClick={() => signOut()}>Logout</button>
+        </>
+      ) : (
+        <Link href="/login">Login</Link>
+      )}
     </nav>
   );
-};
-
-export default Navbar;
+}
