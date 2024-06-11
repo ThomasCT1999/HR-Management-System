@@ -2,8 +2,6 @@
  
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'
-import bcrypt from 'bcryptjs';
-import { useClient } from 'next/client';
 
 export default function Register() {
   const [name, setName] = useState('');
